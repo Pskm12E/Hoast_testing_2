@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+if [ "$#" -ne 0 ]; then
+    echo 'Notebook deploy accepts no arguments; send the release archive on stdin.' >&2
+    exit 64
+fi
+exec /usr/bin/env -i PATH=/usr/sbin:/usr/bin:/sbin:/bin HOME=/root LANG=C.UTF-8 \
+    /usr/bin/python3 -I /usr/local/lib/notebook-deploy/entry.py

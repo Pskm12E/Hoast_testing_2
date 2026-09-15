@@ -66,14 +66,13 @@ Configuration snapshots are kept under `/var/backups/notebook` on the host.
 It requires the existing root-only VM SSH configuration; no credentials are
 stored in this repository.
 
-To release a new committed revision from PowerShell in this repository:
+After the one-time passwordless deployment setup below, release a committed
+revision from PowerShell in this repository:
 
 ```powershell
-git archive --format=tar --output="$env:TEMP/notebook-release.tar" HEAD
-$releaseHash = (Get-FileHash "$env:TEMP/notebook-release.tar" -Algorithm SHA256).Hash.ToLower()
+git -c core.autocrlf=false archive --format=tar --output="$env:TEMP/notebook-release.tar" HEAD
 scp "$env:TEMP/notebook-release.tar" 4bytedigi:/home/pyie/notebook-deploy/release.tar
-scp deploy/install.py 4bytedigi:/home/pyie/notebook-deploy/install.py
-ssh -t 4bytedigi "sudo python3 /home/pyie/notebook-deploy/install.py /home/pyie/notebook-deploy/release.tar $releaseHash"
+ssh -o BatchMode=yes 4bytedigi "sudo -n /usr/local/sbin/notebook-deploy < /home/pyie/notebook-deploy/release.tar"
 ```
 
 The proxied Cloudflare DNS record for `notebook` already points at the existing
@@ -85,6 +84,39 @@ does not stop the site.
 The source is recoverable from GitHub and can be redeployed if the VM is lost.
 Server backups do not contain visitors' notes: notes exist only in each
 visitor's browser, and notes from the localhost preview are a separate notebook.
+
+### One-time passwordless deployment setup
+
+An administrator installs reviewed copies of `install.py`,
+`passwordless-entry.py`, and the `notebook-deploy` wrapper using
+`deploy/setup-passwordless.sh` on 4bytedigi. This step needs the server's sudo
+password entered privately in the terminal once. It creates this permission:
+
+```sudoers
+pyie ALL=(root) NOPASSWD: /usr/local/sbin/notebook-deploy ""
+```
+
+The [empty argument list](https://www.sudo.ws/docs/man/1.9.14/sudoers.man.pdf)
+allows only that exact command without arguments. The installed wrapper and
+Python programs are owned by root and cannot be edited by the deployment user.
+Python runs in isolated mode with a fixed environment. The command accepts an
+uncompressed release archive on stdin, checks its size and file types, and
+copies only the five public assets. It never executes code from the archive.
+Concurrent deployments are rejected. Server passwords are not stored.
+
+This permission is available to the server user `pyie`, including authorized
+SSH sessions. It allows publishing replacement HTML/JavaScript on Notebook,
+so protect the SSH key as a publishing credential. General administrator
+commands still require normal sudo authentication. New applications, changes
+to this privileged installer, and new DNS records need separate setup.
+
+To revoke this permission, an administrator removes
+`/etc/sudoers.d/notebook-deploy` and runs `sudo visudo -c`. Existing web hosting
+continues to run. Security input checks can be run without root on Linux:
+
+```sh
+python3 -I deploy/test-entry.py
+```
 
 ## Files
 
