@@ -2,6 +2,8 @@
 
 A small, responsive, two-page web app for testing website hosting.
 
+Live site: **https://notebook.pyiesone.dev**
+
 - **Home:** introduction, note count, and the two latest notes.
 - **Notes:** add notes, delete them, and undo the latest deletion.
 - Notes persist after refresh in this browser's `localStorage`.
@@ -48,6 +50,41 @@ cloud backup, or cross-device sync; don't use it as the only copy of important d
 ```sh
 npm run check
 ```
+
+## Home-server deployment
+
+The live site is served by Nginx inside 4bytedigi's isolated application VM.
+Traffic passes through the existing gateway VM and named Cloudflare tunnel.
+Notebook has its own hostname and shares the existing internal web port; no
+new public server ports, database, or Node process are required.
+
+`deploy/install.py` is specific to this server's existing configuration. It
+checks the archive checksum, installs only the five public assets, validates
+Nginx and tunnel configuration, tests Notebook and both existing health
+endpoints, and restores prior routing configuration if installation fails.
+Configuration snapshots are kept under `/var/backups/notebook` on the host.
+It requires the existing root-only VM SSH configuration; no credentials are
+stored in this repository.
+
+To release a new committed revision from PowerShell in this repository:
+
+```powershell
+git archive --format=tar --output="$env:TEMP/notebook-release.tar" HEAD
+$releaseHash = (Get-FileHash "$env:TEMP/notebook-release.tar" -Algorithm SHA256).Hash.ToLower()
+scp "$env:TEMP/notebook-release.tar" 4bytedigi:/home/pyie/notebook-deploy/release.tar
+scp deploy/install.py 4bytedigi:/home/pyie/notebook-deploy/install.py
+ssh -t 4bytedigi "sudo python3 /home/pyie/notebook-deploy/install.py /home/pyie/notebook-deploy/release.tar $releaseHash"
+```
+
+The proxied Cloudflare DNS record for `notebook` already points at the existing
+tunnel. Ordinary releases do not require DNS changes. Git pushes alone do not
+deploy automatically; run the release commands after pushing. Nginx and the
+tunnel start with the existing hosting services, so closing the SSH terminal
+does not stop the site.
+
+The source is recoverable from GitHub and can be redeployed if the VM is lost.
+Server backups do not contain visitors' notes: notes exist only in each
+visitor's browser, and notes from the localhost preview are a separate notebook.
 
 ## Files
 
