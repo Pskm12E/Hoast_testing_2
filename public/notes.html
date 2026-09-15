@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Write and keep your everyday notes in your personal notebook."
+    />
+    <title>Your notebook — Little Notes</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body data-page="notes">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="index.html"
+        ><img src="favicon.svg" width="36" height="36" alt="" />little
+        notes<span class="brand-dot">.</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="index.html">Home</a
+        ><a href="notes.html" aria-current="page">Notes</a>
+      </nav>
+      <span class="header-caption">A space of your own</span>
+    </header>
+    <main id="main" class="page notebook-page">
+      <div class="notebook-heading">
+        <div>
+          <span class="eyebrow muted">MAKE YOURSELF AT HOME</span>
+          <h1>Your notebook<span>.</span></h1>
+          <p>For the things you want to come back to.</p>
+        </div>
+        <span id="collection-count" class="count-pill">0 notes</span>
+      </div>
+      <p id="storage-warning" class="notice" role="alert" hidden></p>
+      <noscript
+        ><p class="notice">
+          Enable JavaScript to save and view your notes.
+        </p></noscript
+      >
+      <div class="notebook-layout">
+        <aside class="composer">
+          <div class="composer-heading">
+            <span class="compose-symbol" aria-hidden="true">＋</span>
+            <h2>A new little note</h2>
+          </div>
+          <form id="note-form">
+            <label for="note-title">Title</label>
+            <input
+              id="note-title"
+              name="title"
+              placeholder="What's on your mind?"
+              maxlength="80"
+              required
+              autocomplete="off"
+            />
+            <label for="note-body">Your note</label>
+            <textarea
+              id="note-body"
+              name="body"
+              placeholder="An idea, a reminder, a small win…"
+              maxlength="2000"
+              rows="7"
+              required
+            ></textarea>
+            <div class="character-count">
+              <span id="character-count">0</span> / 2,000
+            </div>
+            <button class="button button-blue" type="submit">
+              Save note <span aria-hidden="true">↗</span>
+            </button>
+            <p class="composer-hint">
+              Notes stay in this browser. They aren’t shared or synced to other
+              devices.
+            </p>
+          </form>
+        </aside>
+        <section class="collection" aria-label="Saved notes">
+          <div class="collection-heading">
+            <h2>All your thoughts</h2>
+            <span>Newest first</span>
+          </div>
+          <div id="notes-grid" class="notes-grid"></div>
+          <div id="empty-notes" class="empty-notes">
+            <div class="empty-paper" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+            <h2>Nothing here. Yet.</h2>
+            <p>
+              Big plans or the shopping list.<br />Your first note can be
+              anything.
+            </p>
+            <button id="start-note" class="text-link" type="button">
+              Let’s write something →
+            </button>
+          </div>
+        </section>
+      </div>
+      <div
+        id="notification"
+        class="toast"
+        role="status"
+        aria-live="polite"
+        hidden
+      >
+        <span id="notification-text"></span
+        ><button id="undo-delete" type="button" hidden>Undo</button>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <span
+        >little notes.
+        <span class="footer-detail">A little less to remember.</span></span
+      ><span>Saved in this browser · <span data-year>2026</span></span>
+    </footer>
+  </body>
+</html>

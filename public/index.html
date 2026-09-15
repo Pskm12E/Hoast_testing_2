@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A quiet little home for your everyday notes and ideas."
+    />
+    <title>Little Notes — Home</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body data-page="home">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="index.html"
+        ><img src="favicon.svg" width="36" height="36" alt="" />little
+        notes<span class="brand-dot">.</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="index.html" aria-current="page">Home</a
+        ><a href="notes.html">Notes</a>
+      </nav>
+      <span class="header-caption">A space of your own</span>
+    </header>
+    <main id="main" class="page home-page">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <span class="eyebrow"
+            ><span class="small-line"></span> LESS NOISE. MORE IDEAS.</span
+          >
+          <h1 id="hero-title">
+            Good ideas<br />start with a<br /><span>little note.</span>
+          </h1>
+          <p>
+            Catch a thought. Keep a list. Make a little room for whatever comes
+            next.
+          </p>
+          <a class="button button-light" href="notes.html#note-title"
+            >Write your first note <span aria-hidden="true">↗</span></a
+          >
+          <span class="hero-footnote"
+            >No account. Just you and your ideas.</span
+          >
+        </div>
+        <div class="paper-scene" aria-hidden="true">
+          <span class="orbit orbit-one"></span
+          ><span class="orbit orbit-two"></span>
+          <span class="little-star">✳</span>
+          <div class="paper back-paper"></div>
+          <div class="paper front-paper">
+            <span class="paper-label">A NOTE TO SELF</span>
+            <span class="paper-title">Small steps.<br />Good things.</span>
+            <span class="paper-line"></span><span class="paper-line"></span
+            ><span class="paper-line short"></span>
+            <span class="paper-check">✓</span
+            ><span class="paper-signature">Start somewhere.</span>
+          </div>
+          <span class="scene-caption">a thought worth keeping ↗</span>
+        </div>
+      </section>
+
+      <section class="recent-section" aria-labelledby="recent-heading">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow muted">YOUR SPACE</span>
+            <h2 id="recent-heading">Pick up where you left off.</h2>
+          </div>
+          <a class="text-link" href="notes.html"
+            >All notes <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <div class="overview-grid">
+          <div class="overview-card">
+            <span class="eyebrow muted">IN YOUR NOTEBOOK</span
+            ><strong id="note-count">0</strong
+            ><span id="note-count-label"
+              >notes, ready for a little inspiration</span
+            ><a href="notes.html"
+              >Open notebook <span aria-hidden="true">→</span></a
+            >
+          </div>
+          <div id="recent-notes" class="recent-notes">
+            <div class="home-empty">
+              <span class="empty-symbol" aria-hidden="true">＋</span>
+              <h3>A fresh page is a good place to start.</h3>
+              <p>Your latest notes will appear here.</p>
+              <a class="text-link" href="notes.html#note-title"
+                >Make your first note →</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+      <p id="storage-warning" class="notice" role="alert" hidden></p>
+      <noscript
+        ><p class="notice">
+          Enable JavaScript to save and view your notes.
+        </p></noscript
+      >
+    </main>
+    <footer class="site-footer">
+      <span
+        >little notes.
+        <span class="footer-detail">A little less to remember.</span></span
+      ><span>Saved in this browser · <span data-year>2026</span></span>
+    </footer>
+  </body>
+</html>

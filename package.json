@@ -1,0 +1,14 @@
+{
+  "name": "little-notes",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A lightweight, two-page notes app for testing website hosting.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "check": "node --check server.mjs && node --check public/app.js"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
