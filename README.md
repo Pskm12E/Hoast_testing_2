@@ -2,7 +2,10 @@
 
 A small, responsive, two-page web app for testing website hosting.
 
-Live site: **https://notebook.pyiesone.dev**
+Live site: **https://test.4bytedigi.com**
+
+Also available at **https://notebook.pyiesone.dev**. Both addresses serve the same
+app. Browser-local notes are separate for each domain and do not move automatically.
 
 - **Home:** introduction, note count, and the two latest notes.
 - **Notes:** add notes, delete them, and undo the latest deletion.
@@ -80,6 +83,13 @@ tunnel. Ordinary releases do not require DNS changes. Git pushes alone do not
 deploy automatically; run the release commands after pushing. Nginx and the
 tunnel start with the existing hosting services, so closing the SSH terminal
 does not stop the site.
+
+The `test.4bytedigi.com` address is an additional proxied CNAME to that same tunnel.
+Its tunnel ingress rule forwards to the existing local web port with
+`httpHostHeader: notebook.pyiesone.dev`, so the existing Notebook deployment
+command updates both addresses. The one-time administrator setup is recorded in
+`deploy/add-test-domain.py`; it backs up the tunnel configuration, validates the
+new rule, checks the existing apps, and restores the old configuration on failure.
 
 The source is recoverable from GitHub and can be redeployed if the VM is lost.
 Server backups do not contain visitors' notes: notes exist only in each
